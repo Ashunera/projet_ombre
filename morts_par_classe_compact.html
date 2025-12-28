@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stats Morts - Compact</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: transparent;
+            color: #fff;
+            padding: 8px;
+            overflow: hidden;
+        }
+        .stats-bar {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            align-items: flex-start;
+        }
+        .class-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 6px;
+            padding: 4px 8px;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            transition: all 0.2s ease;
+            cursor: pointer;
+            width: fit-content;
+            max-width: 100%;
+        }
+        .class-item:hover {
+            background: rgba(0, 0, 0, 0.9);
+            border-color: #ffd700;
+            transform: translateX(5px);
+        }
+        .class-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        .class-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .class-name {
+            font-size: 11px;
+            font-weight: bold;
+            color: #ffd700;
+            white-space: nowrap;
+            text-transform: uppercase;
+        }
+        .deaths {
+            display: flex;
+            gap: 2px;
+            align-items: center;
+            margin-left: 2px;
+            width: fit-content;
+            justify-content: flex-start;
+        }
+        .skull {
+            font-size: 14px;
+            line-height: 1;
+            filter: drop-shadow(0 0 2px rgba(255, 107, 107, 0.8));
+        }
+        .no-deaths {
+            font-size: 10px;
+            color: #666;
+            font-style: italic;
+        }
+        .death-count {
+            font-size: 12px;
+            font-weight: bold;
+            color: #ff6b6b;
+            margin-left: 2px;
+            filter: drop-shadow(0 0 2px rgba(255, 107, 107, 0.8));
+        }
+    </style>
+</head>
+<body>
+    <div class="stats-bar">
+        <div class="class-item" id="iop-item">
+            <div class="class-icon"><img src="images/Iop.webp" alt="Iop" onerror="this.style.display='none'; this.parentElement.innerHTML='⚔️'; this.parentElement.style.fontSize='1.2em';"></div>
+            <span class="class-name">Iop</span>
+            <div class="deaths" id="iop-deaths"></div>
+        </div>
+        <div class="class-item" id="cra-item">
+            <div class="class-icon"><img src="images/cra.webp" alt="Cra" onerror="this.style.display='none'; this.parentElement.innerHTML='🏹'; this.parentElement.style.fontSize='1.2em';"></div>
+            <span class="class-name">Cra</span>
+            <div class="deaths" id="cra-deaths"></div>
+        </div>
+        <div class="class-item" id="eniripsa-item">
+            <div class="class-icon"><img src="images/Eniripsa_Logo.webp" alt="Eniripsa" onerror="this.style.display='none'; this.parentElement.innerHTML='💚'; this.parentElement.style.fontSize='1.2em';"></div>
+            <span class="class-name">Eni</span>
+            <div class="deaths" id="eniripsa-deaths"></div>
+        </div>
+        <div class="class-item" id="ecaflip-item">
+            <div class="class-icon"><img src="images/Ecaflip_Logo.webp" alt="Ecaflip" onerror="this.style.display='none'; this.parentElement.innerHTML='🎲'; this.parentElement.style.fontSize='1.2em';"></div>
+            <span class="class-name">Eca</span>
+            <div class="deaths" id="ecaflip-deaths"></div>
+        </div>
+        <div class="class-item" id="enutrof-item">
+            <div class="class-icon"><img src="images/Enutrof_Logo.webp" alt="Enutrof" onerror="this.style.display='none'; this.parentElement.innerHTML='💰'; this.parentElement.style.fontSize='1.2em';"></div>
+            <span class="class-name">Enu</span>
+            <div class="deaths" id="enutrof-deaths"></div>
+        </div>
+        <div class="class-item" id="sram-item">
+            <div class="class-icon"><img src="images/Sram_Logo.webp" alt="Sram" onerror="this.style.display='none'; this.parentElement.innerHTML='🗡️'; this.parentElement.style.fontSize='1.2em';"></div>
+            <span class="class-name">Sram</span>
+            <div class="deaths" id="sram-deaths"></div>
+        </div>
+        <div class="class-item" id="xelor-item">
+            <div class="class-icon"><img src="images/Xelor_Logo.webp" alt="Xélor" onerror="this.style.display='none'; this.parentElement.innerHTML='⏰'; this.parentElement.style.fontSize='1.2em';"></div>
+            <span class="class-name">Xél</span>
+            <div class="deaths" id="xelor-deaths"></div>
+        </div>
+        <div class="class-item" id="osamodas-item">
+            <div class="class-icon"><img src="images/Osamodas_Logo.webp" alt="Osamodas" onerror="this.style.display='none'; this.parentElement.innerHTML='🐾'; this.parentElement.style.fontSize='1.2em';"></div>
+            <span class="class-name">Osa</span>
+            <div class="deaths" id="osamodas-deaths"></div>
+        </div>
+        <div class="class-item" id="sacrieur-item">
+            <div class="class-icon"><img src="images/Sacrieur_Logo.webp" alt="Sacrieur" onerror="this.style.display='none'; this.parentElement.innerHTML='🩸'; this.parentElement.style.fontSize='1.2em';"></div>
+            <span class="class-name">Sac</span>
+            <div class="deaths" id="sacrieur-deaths"></div>
+        </div>
+        <div class="class-item" id="pandawa-item">
+            <div class="class-icon"><img src="images/Pandawa_Logo.webp" alt="Pandawa" onerror="this.style.display='none'; this.parentElement.innerHTML='🍺'; this.parentElement.style.fontSize='1.2em';"></div>
+            <span class="class-name">Pan</span>
+            <div class="deaths" id="pandawa-deaths"></div>
+        </div>
+        <div class="class-item" id="roublard-item">
+            <div class="class-icon"><img src="images/Roublard.webp" alt="Roublard" onerror="this.style.display='none'; this.parentElement.innerHTML='🎭'; this.parentElement.style.fontSize='1.2em';"></div>
+            <span class="class-name">Rou</span>
+            <div class="deaths" id="roublard-deaths"></div>
+        </div>
+        <div class="class-item" id="zobal-item">
+            <div class="class-icon"><img src="images/Zobal.webp" alt="Zobal" onerror="this.style.display='none'; this.parentElement.innerHTML='🛡️'; this.parentElement.style.fontSize='1.2em';"></div>
+            <span class="class-name">Zob</span>
+            <div class="deaths" id="zobal-deaths"></div>
+        </div>
+        <div class="class-item" id="steamer-item">
+            <div class="class-icon"><img src="images/Steamer.webp" alt="Steamer" onerror="this.style.display='none'; this.parentElement.innerHTML='⚙️'; this.parentElement.style.fontSize='1.2em';"></div>
+            <span class="class-name">Ste</span>
+            <div class="deaths" id="steamer-deaths"></div>
+        </div>
+        <div class="class-item" id="eliotrope-item">
+            <div class="class-icon"><img src="images/Eliotrope_Logo.webp" alt="Eliotrope" onerror="this.style.display='none'; this.parentElement.innerHTML='🌀'; this.parentElement.style.fontSize='1.2em';"></div>
+            <span class="class-name">Eli</span>
+            <div class="deaths" id="eliotrope-deaths"></div>
+        </div>
+        <div class="class-item" id="huppermage-item">
+            <div class="class-icon"><img src="images/Huppermage.webp" alt="Huppermage" onerror="this.style.display='none'; this.parentElement.innerHTML='✨'; this.parentElement.style.fontSize='1.2em';"></div>
+            <span class="class-name">Hup</span>
+            <div class="deaths" id="huppermage-deaths"></div>
+        </div>
+        <div class="class-item" id="ouginak-item">
+            <div class="class-icon"><img src="images/Ouginak.webp" alt="Ouginak" onerror="this.style.display='none'; this.parentElement.innerHTML='🐺'; this.parentElement.style.fontSize='1.2em';"></div>
+            <span class="class-name">Oug</span>
+            <div class="deaths" id="ouginak-deaths"></div>
+        </div>
+        <div class="class-item" id="forgelance-item">
+            <div class="class-icon"><img src="images/Forgelance.webp" alt="Forgelance" onerror="this.style.display='none'; this.parentElement.innerHTML='🔱'; this.parentElement.style.fontSize='1.2em';"></div>
+            <span class="class-name">For</span>
+            <div class="deaths" id="forgelance-deaths"></div>
+        </div>
+        <div class="class-item" id="feca-item">
+            <div class="class-icon"><img src="images/Feca.webp" alt="Féca" onerror="this.style.display='none'; this.parentElement.innerHTML='🛡️'; this.parentElement.style.fontSize='1.2em';"></div>
+            <span class="class-name">Féc</span>
+            <div class="deaths" id="feca-deaths"></div>
+        </div>
+        <div class="class-item" id="sadida-item">
+            <div class="class-icon"><img src="images/Sadida_Logo.webp" alt="Sadida" onerror="this.style.display='none'; this.parentElement.innerHTML='🌿'; this.parentElement.style.fontSize='1.2em';"></div>
+            <span class="class-name">Sad</span>
+            <div class="deaths" id="sadida-deaths"></div>
+        </div>
+    </div>
+    <script>
+        const deathsByClass = {
+            'iop': 0, 'cra': 0, 'eniripsa': 0, 'ecaflip': 0, 'enutrof': 0,
+            'sram': 0, 'xelor': 0, 'osamodas': 0, 'sacrieur': 0, 'pandawa': 0,
+            'roublard': 0, 'zobal': 0, 'steamer': 0, 'eliotrope': 0, 'huppermage': 0,
+            'ouginak': 0, 'forgelance': 0, 'feca': 0, 'sadida': 0
+        };
+        function updateStats() {
+            Object.keys(deathsByClass).forEach(className => {
+                const count = deathsByClass[className];
+                const element = document.getElementById(`${className}-deaths`);
+                if (element) {
+                    element.innerHTML = '';
+                    if (count > 0) {
+                        if (count <= 5) {
+                            // Afficher toutes les têtes de mort (1 à 5)
+                            for (let i = 0; i < count; i++) {
+                                const skull = document.createElement('span');
+                                skull.className = 'skull';
+                                skull.textContent = '💀';
+                                element.appendChild(skull);
+                            }
+                        } else {
+                            // À partir de 6 morts, afficher 1 seule tête + "x6", "x7", etc.
+                            const skull = document.createElement('span');
+                            skull.className = 'skull';
+                            skull.textContent = '💀';
+                            element.appendChild(skull);
+                            
+                            const countText = document.createElement('span');
+                            countText.className = 'death-count';
+                            countText.textContent = 'x' + count;
+                            element.appendChild(countText);
+                        }
+                    } else {
+                        const noDeaths = document.createElement('span');
+                        noDeaths.className = 'no-deaths';
+                        noDeaths.textContent = '0';
+                        element.appendChild(noDeaths);
+                    }
+                }
+            });
+        }
+        function addDeath(className) {
+            if (deathsByClass.hasOwnProperty(className)) {
+                deathsByClass[className]++;
+                updateStats();
+            }
+        }
+        function setDeaths(className, count) {
+            if (deathsByClass.hasOwnProperty(className)) {
+                deathsByClass[className] = count;
+                updateStats();
+            }
+        }
+        updateStats();
+        // Ajouter les event listeners pour le clic
+        document.querySelectorAll('.class-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const className = this.id.replace('-item', '');
+                addDeath(className);
+            });
+        });
+    </script>
+</body>
+</html>
+

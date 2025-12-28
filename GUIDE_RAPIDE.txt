@@ -1,0 +1,51 @@
+═══════════════════════════════════════════════════════════════
+  STATISTIQUES DE MORTS - DOFUS SERVEUR OMBRE
+  Guide Rapide pour Streameur
+═══════════════════════════════════════════════════════════════
+
+📦 INSTALLATION
+───────────────
+1. Extraire tous les fichiers dans un même dossier
+2. Vérifier que le dossier "images" est présent avec les icônes
+3. Ouvrir morts_par_classe.html dans votre navigateur pour tester
+
+🎥 UTILISATION DANS OBS STUDIO
+──────────────────────────────
+1. Ajouter une source "Source navigateur" (Browser Source)
+2. URL : Sélectionner le fichier morts_par_classe.html
+3. Largeur : 1920px | Hauteur : 1080px
+4. Cocher "Actualiser le navigateur quand la scène devient active"
+5. OK
+
+✏️ MODIFIER LES STATISTIQUES
+─────────────────────────────
+1. Ouvrir morts_par_classe.html avec un éditeur de texte
+2. Chercher "deathsByClass" (vers la fin du fichier)
+3. Modifier les nombres :
+   
+   const deathsByClass = {
+       'iop': 5,      ← Changez ces valeurs
+       'cra': 3,
+       'sram': 8,
+       ...
+   };
+
+4. Sauvegarder
+5. Dans OBS : Clic droit sur la source > Actualiser
+
+💡 ASTUCES
+──────────
+- Cliquez sur une carte dans le navigateur pour ajouter une mort
+- Les icônes sont automatiques (fichiers .webp)
+- Design responsive, s'adapte à toutes les tailles
+
+🐛 PROBLÈME ?
+─────────────
+- Icônes manquantes ? Vérifiez que tous les .webp sont présents
+- Pas de mise à jour ? Actualisez la source dans OBS
+- Questions ? Consultez le README.md complet
+
+═══════════════════════════════════════════════════════════════
+Bon stream ! 🎬
+═══════════════════════════════════════════════════════════════
+
